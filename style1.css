@@ -88,13 +88,13 @@ body.light-mode {
 }
 
 body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 {
-    color: #007bff; /* Blue color for headings in light mode */
+    color: #c261ff; /* Blue color for headings in light mode */
 }
 
 body.light-mode a {
-    color: #007bff; /* Blue links in light mode */
+    color: #c261ff; /* Blue links in light mode */
 }
 
 body.light-mode button {
-    background-color: #007bff; /* Blue button in light mode */
+    background-color: #c261ff; /* Blue button in light mode */
 }
