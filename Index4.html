@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code in Floating Window</title>
+    <style>
+        /* Styling for the floating window */
+        .floating-window {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 80%;
+            height: 80%;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            padding: 10px;
+            overflow: auto;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-window-header {
+            cursor: move;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .floating-window-content {
+            font-family: monospace;
+            font-size: 14px;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            height: calc(100% - 40px);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="floating-window" id="codeWindow">
+    <div class="floating-window-header" id="windowHeader">
+        C++ Code (RailNetwork)
+    </div>
+    <div class="floating-window-content">
+        // RailNetwork.h
+
+#include <vector>
+#include <string>
+
+// RailNetwork.cpp
+#include <iostream>
+#include <cmath>
+#include <cstring>
+#include <algorithm>
+#include <cctype>
+#include <stdexcept>
+#include <queue>
+#include <climits>
+
+#define MAX_STATIONS 100
+#define INF 1e9
+
+
+struct AVLNode
+ {
+    char stationName[50];
+    int crowdDensity;
+    int height;
+    AVLNode *left, *right;
+
+    AVLNode(const char *name, int crowd);
+};
+
+
+class RailNetwork 
+{
+private:
+    struct Station 
+    {
+        char name[50];
+        int x;
+        int y;
+        int crowdDensity;
+    };
+
+
+    class UnionFind 
+    {
+    public:
+        std::vector<int> parent, rank;
+        UnionFind(int n);
+        int find(int u);
+        void unite(int u, int v);
+    };
+
+
+    struct Edge 
+    {
+        int u, v, weight;
+        bool operator<(const Edge &other) const;
+    };
+
+
+    Station stations[MAX_STATIONS];
+    int adjMatrix[MAX_STATIONS][MAX_STATIONS];
+    int stationCount;
+    AVLNode* root;
+
+
+    int height(AVLNode *node);
+    int getBalance(AVLNode *node);
+    AVLNode *createNode(const char *stationName, int crowdDensity);
+    AVLNode *rightRotate(AVLNode *y);
+    AVLNode *leftRotate(AVLNode *x);
+    AVLNode *insert(AVLNode *node, const char *stationName, int crowdDensity);
+    AVLNode *minNode(AVLNode *node);
+    void cleanupAVL(AVLNode* node);
+    void toLowerCase(const char *input, char *output);
+    void heapify(Station stations[], int n, int i);
+    double calculateDistanceFromOrigin(int x, int y);
+
+
+public:
+    RailNetwork();
+    ~RailNetwork();
+    void addStation(const char* name, int x, int y, int crowdDensity);
+    void addConnection();
+    int findStationIndex(const char *name);
+    void bfsTraversal(const char *startStation);
+    void dijkstra(const char *source, const char *destination);
+    void floydWarshall();
+    void kruskalMST();
+    void suggestStations(const char *input);
+    void displayStations();
+    void findValidRoute();
+    void assignPassengerToStation(const char *stationName, int crowdDensity);
+    void heapSort();
+};
+
+
+
+
+AVLNode::AVLNode(const char *name, int crowd) 
+{
+    strcpy(stationName, name);
+    crowdDensity = crowd;
+    height = 1;
+    left = right = nullptr;
+}
+
+
+RailNetwork::UnionFind::UnionFind(int n) 
+{
+    parent.resize(n);
+    rank.resize(n, 0);
+    for (int i = 0; i < n; i++) parent[i] = i;
+}
+
+
+int RailNetwork::UnionFind::find(int u) 
+{
+    if (parent[u] != u)
+        parent[u] = find(parent[u]);
+    return parent[u];
+}
+
+
+void RailNetwork::UnionFind::unite(int u, int v) 
+{
+    int rootU = find(u);
+    int rootV = find(v);
+
+    if (rootU != rootV) {
+        if (rank[rootU] > rank[rootV]) 
+        {
+            parent[rootV] = rootU;
+        } else if (rank[rootU] < rank[rootV]) 
+        {
+            parent[rootU] = rootV;
+        } else 
+        {
+            parent[rootV] = rootU;
+            rank[rootU]++;
+        }
+    }
+}
+
+
+bool RailNetwork::Edge::operator<(const Edge &other) const 
+{
+    return weight < other.weight;
+}
+
+
+RailNetwork::RailNetwork() : stationCount(0), root(nullptr) 
+{
+    for (int i = 0; i < MAX_STATIONS; i++) {
+        for (int j = 0; j < MAX_STATIONS; j++) {
+            adjMatrix[i][j] = INF;
+        }
+    }
+}
+
+
+RailNetwork::~RailNetwork() 
+{
+    cleanupAVL(root);
+}
+
+
+int RailNetwork::height(AVLNode *node) 
+{
+    return node ? node->height : 0;
+}
+
+
+int RailNetwork::getBalance(AVLNode *node) 
+{
+    return node ? height(node->left) - height(node->right) : 0;
+}
+
+
+AVLNode* RailNetwork::createNode(const char *stationName, int crowdDensity) 
+{
+    return new AVLNode(stationName, crowdDensity);
+}
+
+
+AVLNode* RailNetwork::rightRotate(AVLNode *y) 
+{
+    AVLNode *x = y->left;
+    AVLNode *T2 = x->right;
+
+    x->right = y;
+    y->left = T2;
+
+    y->height = 1 + std::max(height(y->left), height(y->right));
+    x->height = 1 + std::max(height(x->left), height(x->right));
+
+    return x;
+}
+
+
+AVLNode* RailNetwork::leftRotate(AVLNode *x) 
+{
+    AVLNode *y = x->right;
+    AVLNode *T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    x->height = 1 + std::max(height(x->left), height(x->right));
+    y->height = 1 + std::max(height(y->left), height(y->right));
+
+    return y;
+}
+
+
+AVLNode* RailNetwork::insert(AVLNode *node, const char *stationName, int crowdDensity) 
+{
+    if (!node)
+        return createNode(stationName, crowdDensity);
+
+    if (crowdDensity < node->crowdDensity)
+        node->left = insert(node->left, stationName, crowdDensity);
+    else if (crowdDensity > node->crowdDensity)
+        node->right = insert(node->right, stationName, crowdDensity);
+    else
+        return node;
+
+    node->height = 1 + std::max(height(node->left), height(node->right));
+    int balance = getBalance(node);
+
+    if (balance > 1 && crowdDensity < node->left->crowdDensity)
+        return rightRotate(node);
+
+    if (balance < -1 && crowdDensity > node->right->crowdDensity)
+        return leftRotate(node);
+
+    if (balance > 1 && crowdDensity > node->left->crowdDensity) 
+    {
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
+    }
+
+    if (balance < -1 && crowdDensity < node->right->crowdDensity) 
+    {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
+    return node;
+}
+
+
+AVLNode* RailNetwork::minNode(AVLNode *node) 
+{
+    AVLNode *current = node;
+    while (current && current->left)
+        current = current->left;
+    return current;
+}
+
+
+void RailNetwork::cleanupAVL(AVLNode* node) 
+{
+    if (node) 
+    {
+        cleanupAVL(node->left);
+        cleanupAVL(node->right);
+        delete node;
+    }
+}
+
+
+void RailNetwork::toLowerCase(const char *input, char *output) 
+{
+    for (int i = 0; input[i] != '\0'; i++) 
+    {
+        output[i] = tolower(input[i]);
+    }
+    output[strlen(input)] = '\0';
+}
+
+
+double RailNetwork::calculateDistanceFromOrigin(int x, int y) 
+{
+    return std::sqrt(x * x + y * y);
+}
+
+
+void RailNetwork::heapify(Station stations[], int n, int i) 
+{
+
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && calculateDistanceFromOrigin(stations[left].x, stations[left].y) >
+        calculateDistanceFromOrigin(stations[largest].x, stations[largest].y))
+        largest = left;
+
+    if (right < n && calculateDistanceFromOrigin(stations[right].x, stations[right].y) >
+        calculateDistanceFromOrigin(stations[largest].x, stations[largest].y))
+        largest = right;
+
+    if (largest != i) 
+    {
+        std::swap(stations[i], stations[largest]);
+        heapify(stations, n, largest);
+    }
+
+}
+
+
+void RailNetwork::addStation(const char* name, int x, int y, int crowdDensity) 
+{
+
+    if (stationCount >= MAX_STATIONS) 
+    {
+        throw std::runtime_error("Maximum station limit reached");
+    }
+    if (findStationIndex(name) != -1) {
+        throw std::runtime_error("Station already exists");
+    }
+    if (crowdDensity < 0) {
+        throw std::runtime_error("Crowd density cannot be negative");
+    }
+
+    strcpy(stations[stationCount].name, name);
+    stations[stationCount].x = x;
+    stations[stationCount].y = y;
+    stations[stationCount].crowdDensity = crowdDensity;
+    stationCount++;
+
+}
+
+
+void RailNetwork::addConnection() 
+{
+
+    char name1[50], name2[50];
+    int weight;
+    
+    std::cout << "Enter the names of the two stations to connect: ";
+    std::cin >> name1 >> name2;
+    
+    if (std::cin.fail()) 
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        throw std::runtime_error("Invalid input for station names");
+    }
+
+    std::cout << "Enter the weight (travel time/distance) of the connection: ";
+    std::cin >> weight;
+    
+    if (std::cin.fail() || weight <= 0) 
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        throw std::runtime_error("Invalid weight. Must be a positive number");
+    }
+
+    int station1 = findStationIndex(name1);
+    int station2 = findStationIndex(name2);
+
+    if (station1 == -1 || station2 == -1) 
+    {
+        throw std::runtime_error("Invalid station names");
+    }
+
+    adjMatrix[station1][station2] = weight;
+    adjMatrix[station2][station1] = weight;
+
+}
+
+
+int RailNetwork::findStationIndex(const char *name) 
+{
+
+    for (int i = 0; i < stationCount; i++) 
+    {
+        if (strcmp(stations[i].name, name) == 0) {
+            return i;
+        }
+    }
+    return -1;
+
+}
+
+
+void RailNetwork::bfsTraversal(const char *startStation) 
+{
+
+    int start = findStationIndex(startStation);
+    if (start == -1) 
+    {
+        std::cout << "Error: Starting station does not exist.\n";
+        return;
+    }
+
+    std::vector<bool> visited(MAX_STATIONS, false);
+    std::queue<int> queue;
+
+    visited[start] = true;
+    queue.push(start);
+
+    std::cout << "BFS Traversal starting from " << startStation << ":\n";
+
+    while (!queue.empty()) 
+    {
+        int current = queue.front();
+        queue.pop();
+        std::cout << stations[current].name << " ";
+
+        for (int i = 0; i < stationCount; i++) {
+            if (adjMatrix[current][i] != INF && !visited[i]) 
+            {
+                queue.push(i);
+                visited[i] = true;
+            }
+        }
+    }
+    std::cout << "\n";
+
+}
+
+
+void RailNetwork::dijkstra(const char *source, const char *destination) 
+{
+
+    int srcIndex = findStationIndex(source);
+    int destIndex = findStationIndex(destination);
+
+    if (srcIndex == -1 || destIndex == -1) 
+    {
+        std::cout << "Error: Source or destination station does not exist.\n";
+        return;
+    }
+
+    std::vector<int> dist(stationCount, INF);
+    std::vector<bool> visited(stationCount, false);
+    std::vector<int> prev(stationCount, -1);
+
+    dist[srcIndex] = 0;
+
+    for (int count = 0; count < stationCount - 1; count++) 
+    {
+        int minDist = INF;
+        int minIndex = -1;
+
+        for (int v = 0; v < stationCount; v++) 
+        {
+            if (!visited[v] && dist[v] < minDist) 
+            {
+                minDist = dist[v];
+                minIndex = v;
+            }
+        }
+
+        if (minIndex == -1) break;
+
+        visited[minIndex] = true;
+
+        for (int v = 0; v < stationCount; v++) {
+            if (!visited[v] && adjMatrix[minIndex][v] != INF &&
+                dist[minIndex] + adjMatrix[minIndex][v] < dist[v]) 
+                {
+                dist[v] = dist[minIndex] + adjMatrix[minIndex][v];
+                prev[v] = minIndex;
+            }
+        }
+    }
+
+
+    if (dist[destIndex] == INF) 
+    {
+        std::cout << "No path exists between " << source << " and " << destination << "\n";
+    } 
+    else 
+    {
+        std::cout << "Shortest distance: " << dist[destIndex] << "\n";
+        std::cout << "Path: ";
+        std::vector<int> path;
+        for (int at = destIndex; at != -1; at = prev[at]) 
+        {
+            path.push_back(at);
+        }
+        for (int i = path.size() - 1; i >= 0; i--) 
+        {
+            std::cout << stations[path[i]].name;
+            if (i > 0) std::cout << " -> ";
+        }
+        std::cout << "\n";
+    }
+
+}
+
+
+void RailNetwork::floydWarshall() 
+{
+
+    std::vector<std::vector<int>> dist(stationCount, std::vector<int>(stationCount));
+    std::vector<std::vector<int>> next(stationCount, std::vector<int>(stationCount, -1));
+
+    // Initialize distance and next matrices
+    for (int i = 0; i < stationCount; i++) 
+    {
+        for (int j = 0; j < stationCount; j++) 
+        {
+            dist[i][j] = adjMatrix[i][j];
+            if (i != j && adjMatrix[i][j] != INF) 
+            {
+                next[i][j] = j;
+            }
+        }
+    }
+
+    // Floyd-Warshall algorithm
+    for (int k = 0; k < stationCount; k++) 
+    {
+        for (int i = 0; i < stationCount; i++) 
+        {
+            for (int j = 0; j < stationCount; j++) 
+            {
+                if (dist[i][k] != INF && dist[k][j] != INF &&
+                    dist[i][k] + dist[k][j] < dist[i][j]) 
+                    {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                    next[i][j] = next[i][k];
+                }
+            }
+        }
+    }
+
+
+    // Print results
+    for (int i = 0; i < stationCount; i++) 
+    {
+        for (int j = 0; j < stationCount; j++) 
+        {
+            if (i != j) 
+            {
+                if (dist[i][j] == INF) 
+                {
+                    std::cout << "No path from " << stations[i].name << " to " << stations[j].name << "\n";
+                } else 
+                {
+                    std::cout << "Path from " << stations[i].name << " to " << stations[j].name 
+                              << " (distance: " << dist[i][j] << "): ";
+                    int u = i;
+                    while (u != j) 
+                    {
+                        std::cout << stations[u].name << " -> ";
+                        u = next[u][j];
+                    }
+                    std::cout << stations[j].name << "\n";
+                }
+            }
+        }
+    }
+}
+
+
+void RailNetwork::kruskalMST() 
+{
+
+    std::vector<Edge> edges;
+    for (int i = 0; i < stationCount; i++) 
+    {
+        for (int j = i + 1; j < stationCount; j++) 
+        {
+            if (adjMatrix[i][j] != INF) 
+            {
+                edges.push_back({i, j, adjMatrix[i][j]});
+            }
+        }
+    }
+
+    std::sort(edges.begin(), edges.end());
+    UnionFind uf(stationCount);
+    int totalWeight = 0;
+
+    std::cout << "Minimum Spanning Tree edges:\n";
+    for (const Edge& edge : edges) 
+    {
+        if (uf.find(edge.u) != uf.find(edge.v)) 
+        {
+            uf.unite(edge.u, edge.v);
+            std::cout << stations[edge.u].name << " -- " << stations[edge.v].name 
+                      << " (weight: " << edge.weight << ")\n";
+            totalWeight += edge.weight;
+        }
+    }
+    std::cout << "Total MST weight: " << totalWeight << "\n";
+
+}
+
+
+void RailNetwork::suggestStations(const char *input) 
+{
+
+    char lowerInput[50];
+    toLowerCase(input, lowerInput);
+
+    std::cout << "Suggestions for '" << input << "':\n";
+    bool found = false;
+
+    for (int i = 0; i < stationCount; i++) 
+    {
+        char lowerStationName[50];
+        toLowerCase(stations[i].name, lowerStationName);
+        if (strstr(lowerStationName, lowerInput)) 
+        {
+            std::cout << "- " << stations[i].name << "\n";
+            found = true;
+        }
+    }
+
+    if (!found) 
+    {
+        std::cout << "No matches found.\n";
+    }
+
+}
+
+
+void RailNetwork::displayStations() 
+{
+
+    if (stationCount == 0) 
+    {
+        std::cout << "No stations exist.\n";
+        return;
+    }
+    
+    std::cout << "Stations:\n";
+    for (int i = 0; i < stationCount; i++) 
+    {
+        std::cout << stations[i].name 
+                  << " (Crowd: " << stations[i].crowdDensity 
+                  << ", Coords: " << stations[i].x << "," << stations[i].y << ")\n";
+    }
+
+}
+
+
+void RailNetwork::findValidRoute() 
+{
+
+    char name1[50], name2[50];
+    std::cout << "Enter source station: ";
+    std::cin >> name1;
+    std::cout << "Enter destination station: ";
+    std::cin >> name2;
+
+    int station1 = findStationIndex(name1);
+    int station2 = findStationIndex(name2);
+
+    if (station1 == -1 || station2 == -1) 
+    {
+        throw std::runtime_error("Invalid station name(s)");
+    }
+
+    if (adjMatrix[station1][station2] != INF) 
+    {
+        std::cout << "Direct route exists between " << name1 << " and " << name2 
+                  << " (distance: " << adjMatrix[station1][station2] << ")\n";
+    } else 
+    {
+        std::cout << "No direct route exists between " << name1 << " and " << name2 << "\n";
+    }
+
+}
+
+
+void RailNetwork::assignPassengerToStation(const char *stationName, int crowdDensity) 
+{
+
+    // Insert the station into the AVL tree.
+    root = insert(root, stationName, crowdDensity);
+    
+    // Find the station with the lowest crowd density.
+    AVLNode *minStation = minNode(root);
+        
+    if (minStation) 
+    {
+        std::cout << "Assigning passenger to station '" << minStation->stationName
+                  << "' with crowd density " << minStation->crowdDensity << ".\n";
+        
+        // Store the previous crowd density and update the current one.
+        int prevDensity = minStation->crowdDensity;
+        minStation->crowdDensity += 1;
+
+        std::cout << "Crowd density at station '" << minStation->stationName
+                  << "' increased from " << prevDensity << " to " << minStation->crowdDensity << ".\n";
+    }
+
+}
+
+
+void RailNetwork::heapSort() 
+{
+
+    for (int i = stationCount / 2 - 1; i >= 0; i--)
+        heapify(stations, stationCount, i);
+
+    for (int i = stationCount - 1; i > 0; i--) 
+    {
+        std::swap(stations[0], stations[i]);
+        heapify(stations, i, 0);
+    }
+
+}
+
+// main.cpp remains unchanged
+
+int main() 
+{
+
+    RailNetwork network;
+    int choice;
+
+    while (true) 
+    {
+        std::cout << "\nWelcome to the Rail Network Management System\n"
+          << "Please choose an option from the list below:\n"
+          << "1. Add a new station to the network\n"
+          << "2. Create a connection between two stations\n"
+          << "3. Explore the network starting from a specific station\n"
+          << "4. Find the shortest route between two stations\n"
+          << "5. Analyze all routes to find the quickest paths\n"
+          << "6. Assign a passenger to a station\n"
+          << "7. Generate a minimum connection plan for the network\n"
+          << "8. Search for stations by name\n"
+          << "9. Organize stations based on their distance from a point\n"
+          << "10. Show a complete list of all stations\n"
+          << "11. Check if a direct route exists between two stations\n"
+          << "12. Exit the program\n"
+          << "Enter your choice:";
+
+        if (!(std::cin >> choice)) 
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
+
+        try 
+        {
+            switch (choice) 
+            {
+                case 1: 
+                {
+                    char name[50];
+                    int x, y, crowdDensity;
+                    std::cout << "Enter station name: ";
+                    std::cin >> name;
+                    std::cout << "Enter station coordinates (x y): ";
+                    std::cin >> x >> y;
+                    std::cout << "Enter crowd density: ";
+                    std::cin >> crowdDensity;
+
+                    network.addStation(name, x, y, crowdDensity);
+                    break;
+                }
+                case 2:
+                    network.addConnection();
+                    break;
+                case 3: 
+                {
+                    char name[50];
+                    std::cout << "Enter starting station: ";
+                    std::cin >> name;
+                    network.bfsTraversal(name);
+                    break;
+                }
+                case 4: 
+                {
+                    char source[50], destination[50];
+                    std::cout << "Enter source station: ";
+                    std::cin >> source;
+                    std::cout << "Enter destination station: ";
+                    std::cin >> destination;
+                    network.dijkstra(source, destination);
+                    break;
+                }
+                case 5:
+                    network.floydWarshall();
+                    break;
+                case 6: 
+                {
+                    char stationName[50];
+                    int crowdDensity;
+                    std::cout << "Enter station name to assign passenger: ";
+                    std::cin >> stationName;
+                    std::cout << "Enter current crowd density: ";
+                    std::cin >> crowdDensity;
+                    network.assignPassengerToStation(stationName, crowdDensity);
+                    break;
+                }
+                case 7:
+                    network.kruskalMST();
+                    break;
+                case 8: 
+                {
+                    char searchQuery[50];
+                    std::cout << "Enter search term: ";
+                    std::cin.ignore();
+                    std::cin.getline(searchQuery, 50);
+                    network.suggestStations(searchQuery);
+                    break;
+                }
+                case 9:
+                    network.heapSort();
+                    network.displayStations();
+                    break;
+                case 10:
+                    network.displayStations();
+                    break;
+                case 11:
+                    network.findValidRoute();
+                    break;
+                case 12:
+                    std::cout << "Exiting...\n";
+                    return 0;
+
+                default:
+                    std::cout << "Invalid choice.\n";
+            }
+        } 
+        catch (const std::exception& e) 
+        {
+            std::cout << "Error: " << e.what() << std::endl;
+        }
+    }
+    return 0;
+    
+}
+    </div>
+</div>
+
+<script>
+    // JavaScript to make the window draggable
+    const windowElement = document.getElementById("codeWindow");
+    const header = document.getElementById("windowHeader");
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    header.onmousedown = function(event) {
+        isDragging = true;
+        offsetX = event.clientX - windowElement.getBoundingClientRect().left;
+        offsetY = event.clientY - windowElement.getBoundingClientRect().top;
+    };
+
+    document.onmousemove = function(event) {
+        if (isDragging) {
+            windowElement.style.left = event.clientX - offsetX + "px";
+            windowElement.style.top = event.clientY - offsetY + "px";
+        }
+    };
+
+    document.onmouseup = function() {
+        isDragging = false;
+    };
+</script>
+
+</body>
+</html>
