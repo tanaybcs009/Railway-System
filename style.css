@@ -1,0 +1,244 @@
+/* Base styles */
+:root {
+    --bg-dark: #000000;
+    --accent-primary: #ff6b6b;
+    --accent-secondary: #7d5fff;  /* Changed from yellow to purple */
+    --text-primary: #f2f2f2;
+    --text-secondary: rgba(242, 242, 242, 0.8);
+    --gradient-primary: linear-gradient(45deg, #ff6b6b, #7d5fff);  /* Updated gradient */
+    --card-bg: rgba(0, 0, 0, 0.5);
+}
+
+/* Rest of the base styles remain the same */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Navigation */
+nav {
+    background: var(--card-bg);
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: rgba(255, 107, 107, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav a:hover {
+    background: var(--gradient-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(125, 95, 255, 0.2);  /* Updated shadow color */
+}
+
+/* Main heading */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-align: center;
+    margin-bottom: 40px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+h1:hover {
+    color: var(--accent-secondary);
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+h1:hover::after {
+    width: 150px;
+}
+
+/* Section headings */
+h2 {
+    font-size: 1.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+    padding-left: 15px;
+    border-left: 4px solid var(--accent-secondary);
+}
+
+h2:hover {
+    color: var(--accent-secondary);
+}
+
+/* Content sections */
+.content-section {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 25px 0;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(125, 95, 255, 0.15);  /* Updated shadow color */
+}
+
+.content-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.content-section:hover::before {
+    opacity: 1;
+}
+
+/* Lists */
+ul {
+    list-style: none;
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+ul li {
+    margin: 12px 0;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 25px;
+    transition: all 0.3s ease;
+}
+
+ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+ul li:hover {
+    color: var(--text-primary);
+    transform: translateX(5px);
+}
+
+ul li:hover::before {
+    color: var(--accent-secondary);
+    transform: translateX(3px);
+}
+
+/* Paragraphs */
+p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 15px 0;
+    transition: color 0.3s ease;
+}
+
+p:hover {
+    color: var(--text-primary);
+}
+
+/* Strong elements */
+strong {
+    color: var(--accent-primary);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+strong:hover {
+    color: var(--accent-secondary);
+}
+
+/* Selection styling */
+::selection {
+    background: var(--accent-primary);
+    color: #fff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    nav {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    nav a {
+        width: 100%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .content-section {
+        padding: 20px;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
