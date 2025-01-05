@@ -1,12 +1,12 @@
 /* Base styles */
 :root {
-    --bg-dark: #ffffff;
+    --bg-dark: #ffffff; /* Changed to white */
     --accent-primary: #ff6b6b;
-    --accent-secondary: #7d5fff;  /* Changed from yellow to purple */
-    --text-primary: #f2f2f2;
-    --text-secondary: rgba(242, 242, 242, 0.8);
-    --gradient-primary: linear-gradient(45deg, #ff6b6b, #7d5fff);  /* Updated gradient */
-    --card-bg: rgba(0, 0, 0, 0.5);
+    --accent-secondary: #7d5fff; /* Changed from yellow to purple */
+    --text-primary: #333333; /* Adjusted for contrast with white background */
+    --text-secondary: rgba(51, 51, 51, 0.8); /* Adjusted for contrast */
+    --gradient-primary: linear-gradient(45deg, #ff6b6b, #7d5fff); /* Updated gradient */
+    --card-bg: rgba(0, 0, 0, 0.05); /* Lightened for white background */
 }
 
 /* Rest of the base styles remain the same */
@@ -19,6 +19,8 @@ body {
     min-height: 100vh;
     line-height: 1.6;
 }
+
+
 
 /* Navigation */
 nav {
