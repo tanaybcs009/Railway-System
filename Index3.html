@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efficiency Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Efficiency Analysis of Rail Network Functionalities</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Sl No</th>
+                <th>Functionality</th>
+                <th>Time Complexity</th>
+                <th>Space Complexity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Introduce a new station into the rail network</td>
+                <td>O(1)</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Establish a new route between two existing stations</td>
+                <td>O(1)</td>
+                <td>O(n<sup>2</sup>)</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Explore the rail network starting from a chosen station</td>
+                <td>O(V + E)</td>
+                <td>O(V)</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Determine the best route for traveling between two stations</td>
+                <td>O((V + E) log V)</td>
+                <td>O(V)</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Analyze the entire rail network to find the quickest routes</td>
+                <td>O(V<sup>3</sup>)</td>
+                <td>O(V<sup>2</sup>)</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Update the crowd density of a station</td>
+                <td>O(1)</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Evaluate connections between stations for efficiency</td>
+                <td>O(E log E)</td>
+                <td>O(E)</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Look for stations based on a specific keyword</td>
+                <td>O(n * m)</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Arrange the list of stations according to proximity</td>
+                <td>O(n log n)</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Show a complete list of all stations in the network</td>
+                <td>O(n)</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Verify whether a direct route exists between two specified stations</td>
+                <td>O(1)</td>
+                <td>O(n<sup>2</sup>)</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
