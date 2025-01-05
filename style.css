@@ -1,6 +1,6 @@
 /* Base styles */
 :root {
-    --bg-dark: #000000;
+    --bg-dark: #ffffff;
     --accent-primary: #ff6b6b;
     --accent-secondary: #7d5fff;  /* Changed from yellow to purple */
     --text-primary: #f2f2f2;
