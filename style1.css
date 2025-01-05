@@ -9,7 +9,7 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #ffffff; /* White background */
-    color: #000000; /* Black text */
+    color: #f2f2f2; /* Default text color */
     line-height: 1.6;
     padding: 20px;
     transition: background-color 0.3s ease, color 0.3s ease; /* Transition for background and text color */
@@ -17,9 +17,9 @@ body {
 
 /* Header Styling */
 h1, h2, h3, h4 {
-    color: #007bff; /* Blue color for headings */
+    color: #ff6f61; /* Bright color for headings */
     margin-bottom: 15px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     transition: color 0.3s ease;
 }
 
@@ -27,19 +27,19 @@ h1, h2, h3, h4 {
 p, ul {
     font-size: 1.1rem;
     margin-bottom: 15px;
-    color: #333333; /* Dark gray text */
+    color: #000000; /* Black text for paragraphs */
     transition: color 0.3s ease;
 }
 
 /* Link Styling */
 a {
-    color: #007bff; /* Blue links */
+    color: #ff6f61; /* Bright red links */
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 a:hover {
-    color: #0056b3; /* Darker blue on hover */
+    color: #ffffff; /* White color on hover */
     transform: scale(1.1); /* Slight zoom effect */
 }
 
@@ -60,13 +60,13 @@ ul li {
 
 /* Cool transition for hover effects */
 h3:hover, h4:hover, ul li:hover {
-    color: #007bff; /* Change to blue color on hover */
+    color: #ff6f61; /* Change to bright color on hover */
     transform: translateX(10px); /* Slide effect */
 }
 
 /* Button Styling */
 button {
-    background-color: #007bff; /* Blue button */
+    background-color: #ff6f61; /* Bright red button */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -77,24 +77,24 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #ff3b30; /* Darker red on hover */
     transform: translateY(-3px); /* Button lift effect */
 }
 
 /* Light and Dark Mode Toggle */
 body.light-mode {
-    background-color: #ffffff; /* White background remains for light mode */
-    color: #000000; /* Black text for light mode */
+    background-color: #ffffff; /* White background for light mode */
+    color: #333333; /* Dark text */
 }
 
 body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 {
-    color: #007bff; /* Blue headings for light mode */
+    color: #007bff; /* Blue color for headings in light mode */
 }
 
 body.light-mode a {
-    color: #007bff; /* Blue links for light mode */
+    color: #007bff; /* Blue links in light mode */
 }
 
 body.light-mode button {
-    background-color: #007bff; /* Blue button for light mode */
+    background-color: #007bff; /* Blue button in light mode */
 }
