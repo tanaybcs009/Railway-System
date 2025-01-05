@@ -17,7 +17,7 @@ body {
 
 /* Header Styling */
 h1, h2, h3, h4 {
-    color: #ff6b6b; /* Light red color for headings */
+    color: #ff6b6b; /* Red color for headings */
     margin-bottom: 15px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     transition: color 0.3s ease;
@@ -33,7 +33,7 @@ p, ul {
 
 /* Link Styling */
 a {
-    color: #ff6b6b; /* Light red links */
+    color: #ff6b6b; /* Red links */
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -60,13 +60,13 @@ ul li {
 
 /* Cool transition for hover effects */
 h3:hover, h4:hover, ul li:hover {
-    color: #ff6b6b; /* Light red on hover */
+    color: #ff6b6b; /* Change to red on hover */
     transform: translateX(10px); /* Slide effect */
 }
 
 /* Button Styling */
 button {
-    background-color: #ff6b6b; /* Light red button */
+    background-color: #ff6b6b; /* Red button */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -88,13 +88,13 @@ body.light-mode {
 }
 
 body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 {
-    color: #ff6b6b; /* Light red headings for light mode */
+    color: #ff6b6b; /* Red headings for light mode */
 }
 
 body.light-mode a {
-    color: #ff6b6b; /* Light red links for light mode */
+    color: #ff6b6b; /* Red links for light mode */
 }
 
 body.light-mode button {
-    background-color: #ff6b6b; /* Light red button for light mode */
+    background-color: #ff6b6b; /* Red button for light mode */
 }
