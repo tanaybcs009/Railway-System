@@ -7,9 +7,9 @@
 
 /* Body Styling */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #ffffff; /* White background */
-    color: #000000; /* Black text */
+    color: #333333; /* Dark gray text */
     line-height: 1.6;
     padding: 20px;
     transition: background-color 0.3s ease, color 0.3s ease; /* Transition for background and text color */
@@ -17,57 +17,90 @@ body {
 
 /* Header Styling */
 h1, h2, h3, h4 {
-    color: #ff6b6b; /* Red color for headings */
+    color: #7d5fff; /* Purple color for headings */
     margin-bottom: 15px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     transition: color 0.3s ease;
+}
+
+h1:hover, h2:hover, h3:hover, h4:hover {
+    color: #ff6b6b; /* Red on hover */
 }
 
 /* Paragraph Styling */
 p, ul {
     font-size: 1.1rem;
     margin-bottom: 15px;
-    color: #333333; /* Dark gray text */
+    color: rgba(51, 51, 51, 0.8); /* Slightly lighter gray */
     transition: color 0.3s ease;
+}
+
+p:hover {
+    color: #333333; /* Dark gray text on hover */
 }
 
 /* Link Styling */
 a {
-    color: #ff6b6b; /* Red links */
+    color: #7d5fff; /* Purple links */
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 a:hover {
-    color: #7d5fff; /* Purple on hover */
+    color: #ff6b6b; /* Red on hover */
     transform: scale(1.1); /* Slight zoom effect */
 }
 
 /* Section Styling */
 section {
     margin-bottom: 30px;
+    background: rgba(0, 0, 0, 0.05); /* Light gray background */
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(125, 95, 255, 0.15); /* Light purple shadow */
 }
 
 ul {
     list-style-type: none;
+    padding-left: 20px;
 }
 
 ul li {
     margin: 5px 0;
     font-size: 1rem;
-    transition: color 0.3s ease;
+    color: rgba(51, 51, 51, 0.8);
+    position: relative;
+    padding-left: 25px;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Cool transition for hover effects */
-h3:hover, h4:hover, ul li:hover {
-    color: #ff6b6b; /* Change to red on hover */
-    transform: translateX(10px); /* Slide effect */
+ul li:hover {
+    color: #333333;
+    transform: translateX(5px);
+}
+
+ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #7d5fff;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+ul li:hover::before {
+    color: #ff6b6b;
+    transform: translateX(3px);
 }
 
 /* Button Styling */
 button {
-    background-color: #ff6b6b; /* Red button */
-    color: #fff;
+    background-color: #7d5fff; /* Purple button */
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -77,24 +110,30 @@ button {
 }
 
 button:hover {
-    background-color: #7d5fff; /* Purple on hover */
+    background-color: #ff6b6b; /* Red on hover */
     transform: translateY(-3px); /* Button lift effect */
 }
 
 /* Light and Dark Mode Toggle */
 body.light-mode {
     background-color: #ffffff; /* White background remains for light mode */
-    color: #000000; /* Black text for light mode */
+    color: #333333; /* Dark gray text for light mode */
 }
 
 body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 {
-    color: #ff6b6b; /* Red headings for light mode */
+    color: #7d5fff; /* Purple headings for light mode */
 }
 
 body.light-mode a {
-    color: #ff6b6b; /* Red links for light mode */
+    color: #7d5fff; /* Purple links for light mode */
 }
 
 body.light-mode button {
-    background-color: #ff6b6b; /* Red button for light mode */
+    background-color: #7d5fff; /* Purple button for light mode */
+}
+
+/* Smooth transitions */
+::selection {
+    background: #7d5fff; /* Purple selection highlight */
+    color: #fff;
 }
