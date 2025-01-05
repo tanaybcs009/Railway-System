@@ -9,7 +9,7 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #ffffff; /* White background */
-    color: #f2f2f2; /* Default text color */
+    color: #000000; /* Black text */
     line-height: 1.6;
     padding: 20px;
     transition: background-color 0.3s ease, color 0.3s ease; /* Transition for background and text color */
@@ -17,9 +17,9 @@ body {
 
 /* Header Styling */
 h1, h2, h3, h4 {
-    color: #ff6f61; /* Bright color for headings */
+    color: #a21df5; /* Purple color for headings */
     margin-bottom: 15px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     transition: color 0.3s ease;
 }
 
@@ -27,19 +27,19 @@ h1, h2, h3, h4 {
 p, ul {
     font-size: 1.1rem;
     margin-bottom: 15px;
-    color: #000000; /* Black text for paragraphs */
+    color: #333333; /* Dark gray text */
     transition: color 0.3s ease;
 }
 
 /* Link Styling */
 a {
-    color: #ff6f61; /* Bright red links */
+    color: #a21df5; /* Purple links */
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 a:hover {
-    color: #ffffff; /* White color on hover */
+    color: #7a0bbd; /* Darker purple on hover */
     transform: scale(1.1); /* Slight zoom effect */
 }
 
@@ -60,13 +60,13 @@ ul li {
 
 /* Cool transition for hover effects */
 h3:hover, h4:hover, ul li:hover {
-    color: #ff6f61; /* Change to bright color on hover */
+    color: #a21df5; /* Change to purple color on hover */
     transform: translateX(10px); /* Slide effect */
 }
 
 /* Button Styling */
 button {
-    background-color: #ff6f61; /* Bright red button */
+    background-color: #a21df5; /* Purple button */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -77,24 +77,24 @@ button {
 }
 
 button:hover {
-    background-color: #ff3b30; /* Darker red on hover */
+    background-color: #7a0bbd; /* Darker purple on hover */
     transform: translateY(-3px); /* Button lift effect */
 }
 
 /* Light and Dark Mode Toggle */
 body.light-mode {
-    background-color: #ffffff; /* White background for light mode */
-    color: #333333; /* Dark text */
+    background-color: #ffffff; /* White background remains for light mode */
+    color: #000000; /* Black text for light mode */
 }
 
 body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4 {
-    color: #c261ff; /* Blue color for headings in light mode */
+    color: #a21df5; /* Purple headings for light mode */
 }
 
 body.light-mode a {
-    color: #c261ff; /* Blue links in light mode */
+    color: #a21df5; /* Purple links for light mode */
 }
 
 body.light-mode button {
-    background-color: #c261ff; /* Blue button in light mode */
+    background-color: #a21df5; /* Purple button for light mode */
 }
