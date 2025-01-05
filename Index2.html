@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functionalities in Rail Network</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #ff6f61;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Functionalities in Rail Network</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Sl No</th>
+                <th>Functionality</th>
+                <th>Principles Applicable</th>
+                <th>Algorithms Used</th>
+                <th>Data Structures Used</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Introduce a new station into the rail network by providing its name, geographical coordinates, and crowd density. This ensures that each station is distinct and that the total number of stations does not exceed the allowed limit.</td>
+                <td>Brute Force</td>
+                <td>None</td>
+                <td>Array (for storing stations)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Establish a new route between two existing stations by specifying the travel time or distance. This enhances the overall connectivity of the network, making it easier for passengers to travel between different locations.</td>
+                <td>Transform and conquer</td>
+                <td>None (But graph representation using matrix is used)</td>
+                <td>Adjacency Matrix</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Explore the rail network starting from a chosen station, systematically visiting all reachable stations. This helps in visualizing the layout of the network and understanding how different stations are interconnected.</td>
+                <td>Graph Traversal</td>
+                <td>Breadth-First Search (BFS)</td>
+                <td>Queue, Array (for visited)</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Determine the best route for traveling between two stations by evaluating various paths and selecting the one that takes the least time or covers the shortest distance. This helps passengers make informed decisions about their travel plans.</td>
+                <td>Greedy Technique</td>
+                <td>Dijkstra’s Algorithm</td>
+                <td>Array (for distances), Priority Queue (for selecting the next station)</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Analyse the entire rail network to find the quickest routes connecting every pair of stations. This comprehensive assessment allows for a better understanding of how well the stations are linked and helps identify potential improvements in the network.</td>
+                <td>Dynamic Programming</td>
+                <td>Floyd-Warshall Algorithm</td>
+                <td>2D Array (for distances)</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Update the crowd density of a station by assigning a passenger to it. This process prioritizes stations with lower crowd levels, helping to balance passenger distribution across the network.</td>
+                <td>Greedy Technique</td>
+                <td>None (but binary trees concept is used)</td>
+                <td>AVL Tree (for crowd density)</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Evaluate the connections between stations to determine which routes provide the best overall efficiency in terms of distance travelled. This analysis is essential for enhancing the network’s performance and ensuring that travel resources are utilized in the most effective manner.</td>
+                <td>Greedy Technique</td>
+                <td>Kruskal’s Algorithm</td>
+                <td>Union-Find</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Look for stations based on a specific keyword, returning a list of matching stations. This feature simplifies navigation, making it easier to find desired locations within the network.</td>
+                <td>Brute Force</td>
+                <td>Brute force String Matching Algorithm</td>
+                <td>Array (for storing stations)</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Arrange the list of stations according to their proximity (distance) to a defined starting point. This allows for quick identification of the closest stations, facilitating efficient travel planning.</td>
+                <td>Selection</td>
+                <td>Heap Sort</td>
+                <td>Array (for storing stations)</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Show a complete list of all stations in the network, including their crowd density and geographical coordinates. This provides a clear overview of the network’s structure and helps in understanding station conditions.</td>
+                <td>Sequential access</td>
+                <td>None</td>
+                <td>Array (for storing stations)</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Verify whether a direct route exists between two specified stations. This feature offers immediate information about connectivity options, helping passengers make informed travel decisions.</td>
+                <td>Space and Time Trade-off</td>
+                <td>None</td>
+                <td>Lookup table</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
